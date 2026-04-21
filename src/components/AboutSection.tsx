@@ -1,36 +1,78 @@
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+
 const AboutSection = () => {
-  const traits = ["Detail-oriented", "Collaborative", "Growth-oriented", "Structured thinker"];
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24">
-      <div className="container mx-auto px-6">
-        <p className="text-sm text-muted-foreground mb-2">About Me</p>
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
-          A little bit <br className="md:hidden" />
-          <span className="text-gradient italic font-medium">about myself</span>
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-5 text-muted-foreground leading-relaxed">
-            <p>
-              Setiap pengalaman menjadi kesempatan bagi saya untuk terus belajar dan berkembang. Dengan latar belakang sebagai Full Stack Developer, saya senang membangun aplikasi web dari nol — mulai dari arsitektur backend, database design, hingga UI/UX yang responsif.
-            </p>
-            <p>
-              Cara kerja saya dimulai dari memahami permasalahan secara menyeluruh, merancang solusi yang scalable, lalu mengimplementasikannya dengan kode yang bersih dan maintainable. Saya percaya bahwa komunikasi yang jelas dan kolaborasi yang baik menghasilkan produk digital yang lebih baik.
-            </p>
+    <section id="about" className="section-padding bg-background">
+      <div className="container-narrow" ref={ref}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="grid md:grid-cols-5 gap-12 items-start"
+        >
+          {/* Section Label */}
+          <div className="md:col-span-2">
+            <span className="text-xs font-sans tracking-widest uppercase text-muted-foreground">
+              About Me
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif font-medium mt-3 text-charcoal">
+              A little bit <br />
+              <span className="italic text-primary">about myself</span>
+            </h2>
           </div>
 
-          <div className="flex flex-wrap gap-3 content-start">
-            {traits.map((trait) => (
-              <span
-                key={trait}
-                className="px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm"
-              >
-                {trait}
-              </span>
-            ))}
+          {/* Content */}
+          <div className="md:col-span-3 space-y-6">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="text-lg font-sans text-muted-foreground leading-relaxed"
+            >
+              Setiap pengalaman menjadi kesempatan bagi saya untuk terus belajar dan berkembang. Saya adalah individu yang
+               <span className="text-foreground font-medium"> teliti dan terorganisir dengan ketertarikan kuat pada pengembangan web fullstack.
+                Berbekal pengalaman dalam pengembangan website dan aplikasi sederhana, </span> 
+                saya senang bekerja dengan proses yang terstruktur serta pendekatan logis dalam menyelesaikan masalah.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-lg font-sans text-muted-foreground leading-relaxed"
+            >
+              Dalam bekerja, saya terbiasa memahami kebutuhan sistem secara menyeluruh, 
+              menguraikannya menjadi bagian yang lebih sederhana, serta mengimplementasikan solusi 
+              melalui kode yang terstruktur, efisien, dan mudah dipahami. Saat ini saya terus mengembangkan 
+              kemampuan dalam teknologi frontend dan backend, dengan fokus pada pemecahan masalah 
+              dan peningkatan skill secara berkelanjutan. Saya juga memiliki inisiatif belajar mandiri 
+              serta percaya bahwa komunikasi yang jelas dan kolaborasi tim yang baik 
+              dapat menghasilkan pengembangan aplikasi yang lebih optimal dan terarah.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-wrap gap-3 pt-4"
+            >
+              {["Detail-oriented", "Collaborative ", "Growth-oriented", "Structured thinker"].map((trait, index) => (
+                <span
+                  key={trait}
+                  className="px-4 py-2 bg-rose-light text-charcoal rounded-full text-sm font-sans"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {trait}
+                </span>
+              ))}
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
