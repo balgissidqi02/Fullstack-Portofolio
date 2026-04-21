@@ -7,7 +7,7 @@ import projectPortfolio from "@/assets/project-portfolio.jpg";
 const projects = [
   {
     title: "E-Commerce Platform",
-    role: "Full Stack Developer",
+    role: "FullStack Developer",
     type: "project",
     image: projectEcommerce,
     summary:
