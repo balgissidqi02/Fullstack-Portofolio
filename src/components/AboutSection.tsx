@@ -35,9 +35,9 @@ const AboutSection = () => {
               </div>
               <p className="text-muted-foreground">
                 <span className="text-primary">const</span> developer = {"{"}<br />
-                &nbsp;&nbsp;name: <span className="text-green-400">"Your Name"</span>,<br />
-                &nbsp;&nbsp;role: <span className="text-green-400">"Full Stack Developer"</span>,<br />
-                &nbsp;&nbsp;location: <span className="text-green-400">"Indonesia"</span>,<br />
+                &nbsp;&nbsp;name: <span style={{ color: "hsl(140 60% 55%)" }}>"Your Name"</span>,<br />
+                &nbsp;&nbsp;role: <span style={{ color: "hsl(140 60% 55%)" }}>"Full Stack Developer"</span>,<br />
+                &nbsp;&nbsp;location: <span style={{ color: "hsl(140 60% 55%)" }}>"Indonesia"</span>,<br />
 &nbsp;&nbsp;available: <span className="text-primary">true</span><br />
                 {"}"};
               </p>
