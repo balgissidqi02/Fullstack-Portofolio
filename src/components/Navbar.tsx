@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const navItems = [
   { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
+  { label: "Portfolio", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
@@ -20,34 +20,32 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/90 backdrop-blur-md border-b border-border" : ""
+        scrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : ""
       }`}
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <a href="#" className="font-mono text-lg font-bold text-primary">
-          {"<Dev />"}
+        <a href="#" className="text-lg font-bold text-foreground tracking-tight">
+          Developer
         </a>
 
-        {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors font-mono"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {item.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="text-sm font-mono px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+            className="text-sm px-5 py-2 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
           >
             Say Hello
           </a>
         </div>
 
-        {/* Mobile toggle */}
         <button
           className="md:hidden text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -62,15 +60,14 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-6 pb-4 space-y-3">
+        <div className="md:hidden bg-background/95 backdrop-blur-md px-6 pb-4 space-y-3">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm text-muted-foreground hover:text-primary transition-colors font-mono"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {item.label}
             </a>
