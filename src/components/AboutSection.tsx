@@ -30,15 +30,15 @@ const AboutSection = () => {
             <div className="bg-secondary rounded-lg p-4 font-mono text-sm border border-border">
               <div className="flex items-center gap-2 mb-3">
                 <span className="w-3 h-3 rounded-full bg-destructive/70" />
-                <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <span className="w-3 h-3 rounded-full bg-green-500/70" />
+                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(45 80% 55% / 0.7)" }} />
+                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(140 60% 45% / 0.7)" }} />
               </div>
               <p className="text-muted-foreground">
                 <span className="text-primary">const</span> developer = {"{"}<br />
                 &nbsp;&nbsp;name: <span className="text-green-400">"Your Name"</span>,<br />
                 &nbsp;&nbsp;role: <span className="text-green-400">"Full Stack Developer"</span>,<br />
                 &nbsp;&nbsp;location: <span className="text-green-400">"Indonesia"</span>,<br />
-                &nbsp;&nbsp;available: <span className="text-primary">true</span><br />
+&nbsp;&nbsp;available: <span className="text-primary">true</span><br />
                 {"}"};
               </p>
             </div>
