@@ -206,6 +206,21 @@ const PortfolioModal = ({ item, isOpen, onClose }: PortfolioModalProps) => {
                 </div>
               )}
 
+              {/* BACK BUTTON */}
+              <div className="pt-4">
+                <button
+                  onClick={() => {
+                    onClose();
+                    setTimeout(() => {
+                      document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+                    }, 100);
+                  }}
+                  className="px-6 py-2.5 rounded-full text-sm bg-foreground text-background hover:opacity-90 transition-opacity"
+                >
+                  ← Back to Portfolio
+                </button>
+              </div>
+
             </div>
           </DialogDescription>
         </div>
