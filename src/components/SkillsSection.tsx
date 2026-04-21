@@ -24,7 +24,6 @@ import {
   SiLaravel,
   SiPhp,
   SiHtml5,
-  SiCss3,
   SiSupabase,
   SiTypescript,
   SiGithub
