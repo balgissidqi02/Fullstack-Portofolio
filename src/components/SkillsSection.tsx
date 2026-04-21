@@ -41,7 +41,7 @@ const skillCategories = [
       { name: "PHP", icon: SiPhp },
       { name: "HTML", icon: SiHtml5  },
       { name: "Python", icon: Code },
-      { name: "CSS", icon: SiCss3  },
+      { name: "CSS", icon: Paintbrush  },
       { name: "Supabase", icon: SiSupabase  },
       { name: "TypeScript", icon: SiTypescript  },
       { name: "Microsoft Word", icon: FileText },
