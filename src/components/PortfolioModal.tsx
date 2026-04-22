@@ -1,13 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export interface PortfolioItemDetail {
   id: number;
@@ -17,13 +10,8 @@ export interface PortfolioItemDetail {
   highlight: string;
   category: string;
   images?: string[];
-
-  // NEW FIELDS
   techStack?: string[];
-  links?: {
-    demo?: string;
-    github?: string;
-  };
+  links?: { demo?: string; github?: string };
   impact?: string;
   challenges?: string;
 }
@@ -36,44 +24,51 @@ interface PortfolioModalProps {
 
 const PortfolioModal = ({ item, isOpen, onClose }: PortfolioModalProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setCurrentImageIndex(0);
-      contentRef.current?.scrollTo(0, 0);
-      // const dialog = document.querySelector('[data-state="open"]');
-      // if (dialog) {
-      //   dialog.scrollTop = 0;
-      // }
-    }
+    if (isOpen) setCurrentImageIndex(0);
   }, [isOpen, item?.id]);
 
-  if (!item) return null;
+  // Lock body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
-  const hasMultipleImages = item.images && item.images.length > 1;
+  if (!item || !isOpen) return null;
+
   const hasImages = item.images && item.images.length > 0;
+  const hasMultipleImages = item.images && item.images.length > 1;
 
   const nextImage = () => {
-    if (item.images) {
-      setCurrentImageIndex((prev) => (prev + 1) % item.images.length);
-    }
+    if (item.images) setCurrentImageIndex((p) => (p + 1) % item.images!.length);
   };
-
   const prevImage = () => {
-    if (item.images) {
-      setCurrentImageIndex(
-        (prev) => (prev - 1 + item.images.length) % item.images.length
-      );
-    }
-
+    if (item.images) setCurrentImageIndex((p) => (p - 1 + item.images!.length) % item.images!.length);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent  ref={contentRef} className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto p-0 bg-card border-border rounded-2xl">
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/40 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-card rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center hover:opacity-80 transition-opacity"
+        >
+          <X className="w-4 h-4" />
+        </button>
 
-        {/* IMAGE */}
+        {/* IMAGE CAROUSEL */}
         {hasImages && (
           <div className="relative w-full aspect-video bg-muted overflow-hidden rounded-t-2xl">
             <AnimatePresence mode="wait">
@@ -103,129 +98,128 @@ const PortfolioModal = ({ item, isOpen, onClose }: PortfolioModalProps) => {
                 >
                   <ChevronRight />
                 </button>
+
+                {/* Dots indicator */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {item.images!.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`w-2 h-2 rounded-full transition-colors ${i === currentImageIndex ? "bg-primary" : "bg-background/60"}`}
+                    />
+                  ))}
+                </div>
               </>
             )}
           </div>
         )}
 
         {/* CONTENT */}
-        <div className="p-6 md:p-8 space-y-6">
+        <div className="p-6 md:p-8 space-y-5">
+          {/* Category */}
+          <span className="inline-block px-3 py-1 bg-sage-light rounded-full text-xs capitalize">
+            {item.category}
+          </span>
 
-          <DialogHeader>
-            <span className="inline-block w-fit px-3 py-1 bg-sage-light rounded-full text-xs mb-2 capitalize">
-              {item.category}
-            </span>
+          {/* Title */}
+          <h3 className="text-2xl md:text-3xl font-serif font-medium text-foreground">
+            {item.title}
+          </h3>
 
-            <DialogTitle className="text-2xl md:text-3xl font-serif">
-              {item.title}
-            </DialogTitle>
+          {/* Role */}
+          <p className="text-sm text-primary font-medium">{item.role}</p>
 
-            <p className="text-sm text-primary font-medium">
-              {item.role}
+          {/* Description */}
+          <div className="pt-4 border-t border-border">
+            <h4 className="text-xs uppercase tracking-wider mb-2 text-muted-foreground font-sans">
+              Deskripsi
+            </h4>
+            <p className="text-muted-foreground leading-relaxed font-sans">
+              {item.fullDescription}
             </p>
-          </DialogHeader>
+          </div>
 
-          <DialogDescription asChild>
-            <div className="space-y-6">
+          {/* Highlight */}
+          <div className="pt-4 border-t border-border">
+            <h4 className="text-xs uppercase tracking-wider mb-2 text-muted-foreground font-sans">
+              Highlight
+            </h4>
+            <p className="font-medium text-foreground font-sans">{item.highlight}</p>
+          </div>
 
-              {/* DESCRIPTION */}
-              <div>
-                <h4 className="text-xs uppercase mb-2 text-muted-foreground">
-                  Deskripsi
-                </h4>
-                <p className="leading-relaxed">
-                  {item.fullDescription}
-                </p>
+          {/* Tech Stack */}
+          {item.techStack && item.techStack.length > 0 && (
+            <div className="pt-4 border-t border-border">
+              <h4 className="text-xs uppercase tracking-wider mb-2 text-muted-foreground font-sans">
+                Tech Stack
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {item.techStack.map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-muted rounded-full text-xs">
+                    {tech}
+                  </span>
+                ))}
               </div>
-
-              {/* HIGHLIGHT */}
-              <div className="pt-4 border-t">
-                <h4 className="text-xs uppercase mb-2 text-muted-foreground">
-                  Highlight
-                </h4>
-                <p className="font-medium">{item.highlight}</p>
-              </div>
-
-              {/* TECH STACK */}
-              {item.techStack && (
-                <div className="pt-4 border-t">
-                  <h4 className="text-xs uppercase mb-2 text-muted-foreground">
-                    Tech Stack
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {item.techStack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 bg-muted rounded-full text-xs"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* IMPACT */}
-              {item.impact && (
-                <div className="pt-4 border-t">
-                  <h4 className="text-xs uppercase mb-2 text-muted-foreground">
-                    Impact
-                  </h4>
-                  <p>{item.impact}</p>
-                </div>
-              )}
-
-              {/* CHALLENGES */}
-              {item.challenges && (
-                <div className="pt-4 border-t">
-                  <h4 className="text-xs uppercase mb-2 text-muted-foreground">
-                    Challenges
-                  </h4>
-                  <p>{item.challenges}</p>
-                </div>
-              )}
-
-              {/* LINKS */}
-              {item.links && (
-                <div className="pt-4 border-t">
-                  <h4 className="text-xs uppercase mb-2 text-muted-foreground">
-                    Links
-                  </h4>
-                  <div className="flex gap-4">
-                    {item.links.demo && (
-                      <a href={item.links.demo} target="_blank" className="underline text-primary text-sm">
-                        Live Demo
-                      </a>
-                    )}
-                    {item.links.github && (
-                      <a href={item.links.github} target="_blank" className="underline text-primary text-sm">
-                        GitHub
-                      </a>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* BACK BUTTON */}
-              <div className="pt-4">
-                <button
-                  onClick={() => {
-                    onClose();
-                    setTimeout(() => {
-                      document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
-                    }, 100);
-                  }}
-                  className="px-6 py-2.5 rounded-full text-sm bg-foreground text-background hover:opacity-90 transition-opacity"
-                >
-                  ← Back to Portfolio
-                </button>
-              </div>
-
             </div>
-          </DialogDescription>
+          )}
+
+          {/* Impact */}
+          {item.impact && (
+            <div className="pt-4 border-t border-border">
+              <h4 className="text-xs uppercase tracking-wider mb-2 text-muted-foreground font-sans">
+                Impact
+              </h4>
+              <p className="text-muted-foreground font-sans">{item.impact}</p>
+            </div>
+          )}
+
+          {/* Challenges */}
+          {item.challenges && (
+            <div className="pt-4 border-t border-border">
+              <h4 className="text-xs uppercase tracking-wider mb-2 text-muted-foreground font-sans">
+                Challenges
+              </h4>
+              <p className="text-muted-foreground font-sans">{item.challenges}</p>
+            </div>
+          )}
+
+          {/* Links */}
+          {item.links && (
+            <div className="pt-4 border-t border-border">
+              <h4 className="text-xs uppercase tracking-wider mb-2 text-muted-foreground font-sans">
+                Links
+              </h4>
+              <div className="flex gap-4">
+                {item.links.demo && (
+                  <a href={item.links.demo} target="_blank" rel="noopener noreferrer" className="underline text-primary text-sm">
+                    Live Demo
+                  </a>
+                )}
+                {item.links.github && (
+                  <a href={item.links.github} target="_blank" rel="noopener noreferrer" className="underline text-primary text-sm">
+                    GitHub
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Back button */}
+          <div className="pt-4">
+            <button
+              onClick={() => {
+                onClose();
+                setTimeout(() => {
+                  document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
+              className="px-6 py-2.5 rounded-full text-sm bg-foreground text-background hover:opacity-90 transition-opacity"
+            >
+              ← Back to Portfolio
+            </button>
+          </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 
