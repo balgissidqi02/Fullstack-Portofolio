@@ -6,7 +6,7 @@ import PortfolioModal, { PortfolioItemDetail } from "./PortfolioModal";
 
 
 const categories = [
-  { id: "all", label: "Semua", icon: Star },
+  { id: "all", label: "Semua", icon: Star},
   { id: "experience", label: "Pengalaman", icon: Briefcase },
   { id: "project", label: "Proyek", icon: Folder },
   { id: "organization", label: "Organisasi", icon: Users },
@@ -162,6 +162,34 @@ const portfolioItems: PortfolioItemDetail[] = [
       "/images/saka2.jpeg",
       "/images/sertifsaka.jpg",
       "/images/saka3.jpg",
+    ],
+  },
+  {
+    id: 12,
+    title: "Pembuatan Web App Mantor Sebagai Media Belajar Menggunakan Laravel dan MySQL",
+    fullDescription: "Pada project pertama saya menggunakan Framework Laravel, saya merancang dan membangun web app bernama Mantor yang berfokus untuk membantu siswa/i untuk belajar mandiri di bidang akademik dengan adanya quiz dan materi di tiap mata pelajarannya. Pada tahap pembangunan project ini menggunakan framework laravel serta MySQL untuk databasenya",
+    role: "Fullstack Programmer",
+    highlight: "Fullstack Programmer pada pembuatan web app Mantor.",
+    category: "project",
+    images: [
+      "/images/foto mantor1.png",
+      "/images/foto mantor2.png",
+      "/images/foto mantor3.png",
+      "/images/foto mantor4.png",
+      "/images/foto mantor5.png",
+    ],
+  },
+  {
+    id: 13,
+    title: "Pembuatan Web Artcyclopedia Menggunakan React`",
+    fullDescription: "Ini adalah project react pertama saya dengan merancang dan membangun web bernama Artcyclopedia yang berfokus untuk membantu mereka yang memiliki ketertarikan untuk mengetahui berbagai lukisan yang ada di dunia untuk belajar",
+    role: "Frontend Programmer",
+    highlight: "Frontend Programmer pada pembuatan web Artcyclopedia.",
+    category: "project",
+    images: [
+      "/images/foto artcyclopedia1.png",
+      "/images/foto artcyclopedia2.png",
+      "/images/foto artcyclopedia3.png",
     ],
   },
 ];
